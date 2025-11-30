@@ -1,7 +1,31 @@
 package com.example.lab_week_12
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.lab_week_12.model.Movie
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MovieViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+class MovieViewModel(
+    private val movieRepository: MovieRepository
+) : ViewModel() {
 
+    init {
+        fetchPopularMovies()
+    }
+
+    // LiveData
+    val popularMovies: LiveData<List<Movie>>
+        get() = movieRepository.movies
+
+    val error: LiveData<String>
+        get() = movieRepository.error
+
+    // Fetch movies from API
+    private fun fetchPopularMovies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            movieRepository.fetchMovies()
+        }
+    }
 }
