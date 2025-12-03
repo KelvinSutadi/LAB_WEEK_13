@@ -1,0 +1,25 @@
+1. Why is MVVM important? Which files represent Model, which files represent View, and which files represent ViewModel?
+JAWABAN:
+MVVM (Model-View-ViewModel) penting karena memisahkan antarmuka pengguna (UI) dari logika bisnis[cite: 14]. Hal ini membuat kode lebih mudah dipelihara dan diuji, serta perubahan pada UI tidak merusak logika data [cite: 15-16].
+- Model: Diwakili oleh file `Movie.kt` (sebagai data layer)[cite: 18].
+- View: Diwakili oleh `MainActivity.kt` dan `activity_main.xml` (UI yang menampilkan data)[cite: 20].
+- ViewModel: Diwakili oleh `MovieViewModel.kt` (mengambil data dari Model dan menyediakannya ke View)[cite: 22].
+
+2. In Part 1, you implemented Data Binding, why is this more efficient than using the normal method?
+JAWABAN:
+Data Binding lebih efisien karena memungkinkan ViewModel berkomunikasi langsung dengan View (XML) tanpa perantara manual[cite: 55]. Ini menghilangkan kebutuhan kode berulang (boilerplate) seperti `findViewById`, sehingga kode lebih ringkas dan mengurangi risiko error pada View.
+
+3. In Part 2, you implemented the Singleton Pattern, why is this important?
+JAWABAN:
+Pola Singleton penting untuk pembuatan Database karena proses pembuatan instance database itu "mahal" (berat secara resource)[cite: 132]. Singleton memastikan hanya ada 1 instance database yang aktif di seluruh aplikasi, yang mencegah penggunaan memori berlebih dan mencegah *Race Conditions* (konflik data saat diakses banyak thread sekaligus) [cite: 131-132].
+
+4. In Part 2 & 3, you implemented the Repository Pattern, why is this important?
+JAWABAN:
+Repository Pattern penting karena berfungsi sebagai pengelola sinkronisasi data antara Web Service (API) dan Database Lokal (Room)[cite: 27]. Pola ini memastikan data lokal tetap *up-to-date* dengan server, serta memungkinkan pengguna tetap bisa mengakses aplikasi secara offline (tanpa internet) menggunakan data yang tersimpan di cache [cite: 31-32].
+
+5. In part 3, you implemented the Worker Manager, is there another way to refresh your database with the latest data other than using Worker?
+JAWABAN:
+Ya, ada cara lain selain WorkManager, misalnya:
+- Menggunakan `AlarmManager` (metode lama untuk tugas terjadwal).
+- Menggunakan `JobScheduler`.
+- Melakukan fetch data manual berdasarkan siklus hidup Activity (misalnya memanggil fungsi update setiap kali `onResume` atau saat aplikasi dibuka), namun cara ini tidak berjalan di background saat aplikasi ditutup seperti WorkManager.
